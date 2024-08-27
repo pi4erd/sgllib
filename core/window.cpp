@@ -14,7 +14,7 @@ Window::Window(std::string title)
 
     glfwWindowHint(GLFW_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
     glfwWindowHint(GLFW_SAMPLES, 8);
     // glfwWindowHint(GLFW_WAYLAND_APP_ID, 133753535);
 

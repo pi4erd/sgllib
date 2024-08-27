@@ -35,7 +35,8 @@ protected: // Virtuals
         (void)dx, (void)dy;
     }
     virtual void resize(int width, int height) {
-        (void)width, (void)height;
+        this->width = width;
+        this->height = height;
     }
     virtual void keyboardCallback(int key, int action, int scancode, int mod) {
         (void)key;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <fmt/format.h>
 
 #define LOGLEVEL_DEBUG 3
@@ -7,7 +8,7 @@
 #define LOGLEVEL_WARN 1
 #define LOGLEVEL_ERROR 0
 
-//#define LOG_LEVEL LOGLEVEL_DEBUG
+// #define LOG_LEVEL LOGLEVEL_DEBUG
 
 #if LOG_LEVEL >= LOGLEVEL_DEBUG
     #define LOG_DEBUG(...) fmt::println(">\tDEBUG:\t{}", fmt::format(__VA_ARGS__))

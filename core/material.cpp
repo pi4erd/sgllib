@@ -94,7 +94,7 @@ MaterialBuilder::~MaterialBuilder()
     LOG_DEBUG("Destroyed MaterialBuilder");
 }
 
-std::shared_ptr<Material> MaterialBuilder::buildMaterial()
+std::shared_ptr<Material> MaterialBuilder::build()
 {
     GLuint program = glCreateProgram();
 
@@ -120,6 +120,34 @@ std::shared_ptr<Material> MaterialBuilder::buildMaterial()
     attachedShaders.clear();
 
     return std::make_shared<Material>(program);
+}
+
+std::unique_ptr<Material> MaterialBuilder::buildUnique()
+{
+    GLuint program = glCreateProgram();
+
+    for(auto &shader : attachedShaders) {
+        glAttachShader(program, shader->getId());
+    }
+
+    glLinkProgram(program);
+
+    int success;
+
+    glGetProgramiv(program, GL_LINK_STATUS, &success);
+
+    if(success != GL_TRUE) {
+        char infoLog[512];
+        glGetProgramInfoLog(program, sizeof(infoLog), nullptr, infoLog);
+        throw std::runtime_error(fmt::format("Failed to link shaders in material: {}", infoLog));
+    }
+
+    for(auto shader : attachedShaders) {
+        glDetachShader(program, shader->getId());
+    }
+    attachedShaders.clear();
+
+    return std::make_unique<Material>(program);
 }
 
 MaterialBuilder MaterialBuilder::attachShader(std::shared_ptr<Shader> shader)

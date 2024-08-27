@@ -44,7 +44,8 @@ public:
     MaterialBuilder();
     ~MaterialBuilder();
 
-    std::shared_ptr<Material> buildMaterial();
+    std::shared_ptr<Material> build();
+    std::unique_ptr<Material> buildUnique();
     MaterialBuilder attachShader(std::shared_ptr<Shader> shader);
 
 private:
