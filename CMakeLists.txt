@@ -14,4 +14,5 @@ else()
     set(SGL_LIBRARIES sgl)
 endif()
 
-include_directories(include)
+set(SGL_INCLUDE_DIRECTORIES include)
+
