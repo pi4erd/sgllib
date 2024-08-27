@@ -1,4 +1,7 @@
 #pragma once
+#ifndef SGL_USE_ADDON
+    #error SGL is used without addon support. Define SGL_USE_ADDON to use addons
+#endif
 
 #include <glm/glm.hpp>
 
