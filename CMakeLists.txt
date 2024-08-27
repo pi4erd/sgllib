@@ -7,11 +7,7 @@ FILE(GLOB SGL_ADDON_FILES addon/*.cpp)
 
 add_library(sgl ${SGL_SOURCE_FILES})
 
-if(SGL_BUILD_ADDON)
-    add_library(sglad ${SGL_SOURCE_FILES})
-    set(SGL_LIBRARIES sgl sglad)
-else()
-    set(SGL_LIBRARIES sgl)
-endif()
+add_library(sglad ${SGL_SOURCE_FILES})
+set(SGL_LIBRARIES sgl sglad)
 
 set(SGL_INCLUDE_DIRECTORIES include)
