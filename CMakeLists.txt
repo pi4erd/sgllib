@@ -15,4 +15,3 @@ else()
 endif()
 
 set(SGL_INCLUDE_DIRECTORIES include)
-
