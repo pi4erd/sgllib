@@ -9,7 +9,7 @@ include_directories(include)
 
 add_library(sgl ${SGL_SOURCE_FILES})
 
-add_library(sglad ${SGL_SOURCE_FILES})
+add_library(sglad ${SGL_ADDON_FILES})
 set(SGL_LIBRARIES sgl sglad)
 
 set(SGL_INCLUDE_DIRECTORIES include)
