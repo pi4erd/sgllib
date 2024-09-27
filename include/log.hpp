@@ -3,12 +3,11 @@
 #include <string>
 #include <fmt/format.h>
 
-#define LOGLEVEL_DEBUG 3
-#define LOGLEVEL_INFO 2
-#define LOGLEVEL_WARN 1
-#define LOGLEVEL_ERROR 0
-
-// #define LOG_LEVEL LOGLEVEL_DEBUG
+#define LOGLEVEL_DEBUG 4
+#define LOGLEVEL_INFO 3
+#define LOGLEVEL_WARN 2
+#define LOGLEVEL_ERROR 1
+#define LOGLEVEL_NONE 0
 
 #if LOG_LEVEL >= LOGLEVEL_DEBUG
     #define LOG_DEBUG(...) fmt::println(">\tDEBUG:\t{}", fmt::format(__VA_ARGS__))
