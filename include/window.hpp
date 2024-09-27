@@ -30,6 +30,10 @@ public:
 
     int width, height;
 
+public: // abstracts
+    virtual void render(double delta) = 0;
+    virtual void update(double delta) = 0;
+
 protected: // Virtuals
     virtual void mouseScroll(double dx, double dy) {
         (void)dx, (void)dy;
