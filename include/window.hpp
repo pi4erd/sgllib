@@ -3,10 +3,12 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <vector>
+#include <tuple>
 
 class Window {
 public:
-    Window(std::string title);
+    Window(std::string title, const std::vector<std::tuple<int, int>> &hints);
     ~Window();
 
     bool shouldClose(void) { return glfwWindowShouldClose(window); }

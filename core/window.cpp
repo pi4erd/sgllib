@@ -1,11 +1,12 @@
 #include <GL/glew.h>
 #include "window.hpp"
 
+#include <GLFW/glfw3.h>
 #include <stdexcept>
 
 #include "log.hpp"
 
-Window::Window(std::string title)
+Window::Window(std::string title, const std::vector<std::tuple<int, int>> &hints)
 {
     if(!glfwInit())
         throw std::runtime_error("Failed to initialize GLFW!");
@@ -15,8 +16,10 @@ Window::Window(std::string title)
     glfwWindowHint(GLFW_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
-    glfwWindowHint(GLFW_SAMPLES, 8);
-    // glfwWindowHint(GLFW_WAYLAND_APP_ID, 133753535);
+
+    for(const auto &[hint, value] : hints) {
+        glfwWindowHint(hint, value);
+    }
 
     width = 1280;
     height = 720;
