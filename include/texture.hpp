@@ -9,6 +9,7 @@ public:
     ~Texture();
 
     static std::shared_ptr<Texture> createEmptyStorage(GLsizei width, GLsizei height);
+    static std::shared_ptr<Texture> fromImage(const std::string &path);
 
     void recreateStorage(GLsizei newWidth, GLsizei newHeight);
 

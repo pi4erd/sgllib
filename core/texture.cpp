@@ -1,6 +1,10 @@
 #include "texture.hpp"
 #include "log.hpp"
 
+#include <GL/glew.h>
+#include <memory>
+#include <stb/stb_image.h>
+
 Texture::Texture(GLuint handle) : handle(handle) {
     LOG_DEBUG("Created texture {}", handle);
 }
@@ -17,6 +21,31 @@ std::shared_ptr<Texture> Texture::createEmptyStorage(GLsizei width, GLsizei heig
     glTextureParameteri(handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureStorage2D(handle, 1, GL_RGBA32F, width, height);
     
+    return std::make_shared<Texture>(handle);
+}
+
+std::shared_ptr<Texture> Texture::fromImage(const std::string &path) {
+    GLuint handle;
+
+    glGenTextures(1, &handle);
+    glBindTexture(GL_TEXTURE_2D, handle);
+
+    int width, height, channels;
+    uint8_t *image_data = stbi_load(path.c_str(), &width, &height, &channels, 4);
+
+    glTexImage2D(
+        GL_TEXTURE_2D, 0, GL_RGBA8,
+        width, height, 0, GL_RGBA,
+        GL_UNSIGNED_BYTE, image_data
+    );
+
+    stbi_image_free(image_data);
+
+    glTextureParameteri(handle, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(handle, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(handle, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTextureParameteri(handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
     return std::make_shared<Texture>(handle);
 }
 
