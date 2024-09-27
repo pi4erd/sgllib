@@ -3,6 +3,8 @@
 
 #include <GL/glew.h>
 #include <memory>
+
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
 Texture::Texture(GLuint handle) : handle(handle) {
