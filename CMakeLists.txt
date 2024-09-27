@@ -20,5 +20,5 @@ set(SGL_LIBRARIES sgl sglad PARENT_SCOPE)
 set(SGL_INCLUDE_DIRECTORIES include PARENT_SCOPE)
 
 target_link_libraries(sgl
-    PUBLIC fmt OpenGL::GL glfw3 GLEW
+    PUBLIC fmt OpenGL::GL glfw GLEW
 )
