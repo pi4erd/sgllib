@@ -1,12 +1,11 @@
 #include "camera.hpp"
 
 #include "log.hpp"
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/geometric.hpp>
-#include <glm/gtc/constants.hpp>
+#include <glm/matrix.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/transform.hpp>
 
-Camera::Camera() : origin(0.0, 0.0, 0.0), direction(0.0, 0.0, 1.0),
+Camera::Camera() : origin(0.0), rotation(0.0),
   up(0.0, -1.0, 0.0), fovY(glm::half_pi<float>()),
   nearPlane(0.1f), farPlane(5000.0f) {
     LOG_DEBUG("Created camera");
@@ -17,11 +16,21 @@ Camera::~Camera() {
 }
 
 glm::vec3 Camera::right() {
-    return glm::cross(up, direction);
+    return rotationMatrix() * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+}
+
+glm::vec3 Camera::forward() {
+    return rotationMatrix() * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+}
+
+glm::mat4 Camera::rotationMatrix() {
+    return glm::rotate(rotation.z, glm::vec3(0.0, 0.0, 1.0))
+        * glm::rotate(rotation.x, glm::vec3(1.0, 0.0, 0.0))
+        * glm::rotate(rotation.y, glm::vec3(0.0, -1.0, 0.0));
 }
 
 glm::mat4 Camera::viewMatrix() {
-    return glm::lookAt(origin, origin + direction, up);
+    return glm::inverse(rotationMatrix() * glm::translate(origin));
 }
 
 glm::mat4 Camera::projectionMatrix(float aspect) {

@@ -8,13 +8,16 @@ public:
     ~Camera();
 
     glm::vec3 right();
+    glm::vec3 forward();
+
+    glm::mat4 rotationMatrix();
 
     glm::mat4 viewMatrix();
     glm::mat4 projectionMatrix(float aspect);
 
 public: // public properties
     glm::vec3 origin;
-    glm::vec3 direction;
+    glm::vec3 rotation;
     glm::vec3 up;
 
     float nearPlane, farPlane;
