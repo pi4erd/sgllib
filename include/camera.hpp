@@ -6,7 +6,9 @@ class Camera {
 public:
     Camera();
     ~Camera();
-    
+
+    glm::vec3 right();
+
     glm::mat4 viewMatrix();
     glm::mat4 projectionMatrix(float aspect);
 

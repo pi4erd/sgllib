@@ -3,16 +3,21 @@
 #include "log.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/geometric.hpp>
 #include <glm/gtc/constants.hpp>
 
 Camera::Camera() : origin(0.0, 0.0, 0.0), direction(0.0, 0.0, 1.0),
-  up(0.0, 1.0, 0.0), fovY(glm::half_pi<float>()),
+  up(0.0, -1.0, 0.0), fovY(glm::half_pi<float>()),
   nearPlane(0.1f), farPlane(5000.0f) {
     LOG_DEBUG("Created camera");
 }
 
 Camera::~Camera() {
     LOG_DEBUG("Destroyed camera");
+}
+
+glm::vec3 Camera::right() {
+    return glm::cross(up, direction);
 }
 
 glm::mat4 Camera::viewMatrix() {
