@@ -26,10 +26,10 @@ public:
     void uniform1(const std::string &name, GLint value);
     void uniform1(const std::string &name, GLuint value);
     void uniform1(const std::string &name, GLfloat value);
-    void uniform2(const std::string &name, glm::vec2 vec);
-    void uniform3(const std::string &name, glm::vec3 vec);
-    void uniform4(const std::string &name, glm::vec4 vec);
-    void uniform4x4(const std::string &name, glm::mat4 matrix);
+    void uniform2(const std::string &name, const glm::vec2 &vec);
+    void uniform3(const std::string &name, const glm::vec3 &vec);
+    void uniform4(const std::string &name, const glm::vec4 &vec);
+    void uniform4x4(const std::string &name, const glm::mat4 &matrix);
 
 private:
     GLuint getLocation(const std::string &name);

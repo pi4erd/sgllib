@@ -56,22 +56,22 @@ void Material::uniform1(const std::string &name, GLfloat value)
     glUniform1f(getLocation(name), value);
 }
 
-void Material::uniform2(const std::string &name, glm::vec2 vec)
+void Material::uniform2(const std::string &name, const glm::vec2 &vec)
 {
     glUniform2fv(getLocation(name), 1, glm::value_ptr(vec));
 }
 
-void Material::uniform3(const std::string &name, glm::vec3 vec)
+void Material::uniform3(const std::string &name, const glm::vec3 &vec)
 {
     glUniform3fv(getLocation(name), 1, glm::value_ptr(vec));
 }
 
-void Material::uniform4(const std::string &name, glm::vec4 vec)
+void Material::uniform4(const std::string &name, const glm::vec4 &vec)
 {
     glUniform4fv(getLocation(name), 1, glm::value_ptr(vec));
 }
 
-void Material::uniform4x4(const std::string &name, glm::mat4 matrix)
+void Material::uniform4x4(const std::string &name, const glm::mat4 &matrix)
 {
     glUniformMatrix4fv(getLocation(name), 1, false, glm::value_ptr(matrix));
 }
