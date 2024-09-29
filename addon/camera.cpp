@@ -25,9 +25,9 @@ glm::vec3 Camera::forward() {
 }
 
 glm::mat4 Camera::rotationMatrix() {
-    return glm::rotate(rotation.z, glm::vec3(0.0, 0.0, 1.0))
+    return glm::rotate(rotation.y, glm::vec3(0.0, -1.0, 0.0))
         * glm::rotate(rotation.x, glm::vec3(1.0, 0.0, 0.0))
-        * glm::rotate(rotation.y, glm::vec3(0.0, -1.0, 0.0));
+        * glm::rotate(rotation.z, glm::vec3(0.0, 0.0, 1.0));
 }
 
 glm::mat4 Camera::viewMatrix() {
