@@ -13,6 +13,8 @@ public:
 
     void recreateStorage(GLsizei newWidth, GLsizei newHeight);
 
+    void makeMipmaps();
+
     // Binds and sets texture to unit
     void bind_image(GLuint unit, GLenum accessMode);
     void use(GLuint unit);

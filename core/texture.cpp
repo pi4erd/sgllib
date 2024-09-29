@@ -58,6 +58,13 @@ void Texture::recreateStorage(GLsizei newWidth, GLsizei newHeight)
     glTextureStorage2D(handle, 1, GL_RGBA32F, newWidth, newHeight);
 }
 
+void Texture::makeMipmaps() {
+    glBindTexture(GL_TEXTURE_2D, handle);
+    glActiveTexture(GL_TEXTURE0);
+    glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+
 Texture::~Texture() {
     LOG_DEBUG("Destroying texture {}", handle);
     glDeleteTextures(1, &handle);
