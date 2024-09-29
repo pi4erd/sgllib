@@ -22,6 +22,11 @@ Material::Material(GLuint handle) : program(handle)
             &type, nameBuffer);
         location = glGetUniformLocation(program, nameBuffer);
         
+        if(location == UINT32_MAX) {
+            LOG_ERROR("Failed to find uniform ID {}.", i);
+            continue;
+        }
+
         MaterialProperty property = {location, type};
         uniforms.insert({nameBuffer, property});
     }

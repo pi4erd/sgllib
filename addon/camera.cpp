@@ -1,6 +1,7 @@
 #include "camera.hpp"
 
 #include "log.hpp"
+#include <glm/ext/matrix_transform.hpp>
 #include <glm/matrix.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
@@ -30,9 +31,9 @@ glm::mat4 Camera::rotationMatrix() {
 }
 
 glm::mat4 Camera::viewMatrix() {
-    return glm::inverse(rotationMatrix() * glm::translate(origin));
+    return glm::lookAt(origin, origin + forward(), up);
 }
 
 glm::mat4 Camera::projectionMatrix(float aspect) {
-    return glm::perspective(fovY, aspect, nearPlane, farPlane);
+    return glm::perspectiveLH(fovY, aspect, nearPlane, farPlane);
 }
