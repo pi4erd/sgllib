@@ -82,31 +82,31 @@ void Material::uniform4x4(const std::string &name, const glm::mat4 &matrix)
     glUniformMatrix4fv(getLocation(name), 1, false, glm::value_ptr(matrix));
 }
 
-void uniform1(GLuint location, GLint value) {
+void Material::uniform1(GLuint location, GLint value) {
     glUniform1i(location, value);
 }
 
-void uniform1(GLuint location, GLuint value) {
+void Material::uniform1(GLuint location, GLuint value) {
     glUniform1ui(location, value);
 }
 
-void uniform1(GLuint location, GLfloat value) {
+void Material::uniform1(GLuint location, GLfloat value) {
     glUniform1f(location, value);
 }
 
-void uniform2(GLuint location, const glm::vec2 &vec) {
+void Material::uniform2(GLuint location, const glm::vec2 &vec) {
     glUniform2fv(location, 1, glm::value_ptr(vec));
 }
 
-void uniform3(GLuint location, const glm::vec3 &vec) {
+void Material::uniform3(GLuint location, const glm::vec3 &vec) {
     glUniform3fv(location, 1, glm::value_ptr(vec));
 }
 
-void uniform4(GLuint location, const glm::vec4 &vec) {
+void Material::uniform4(GLuint location, const glm::vec4 &vec) {
     glUniform4fv(location, 1, glm::value_ptr(vec));
 }
 
-void uniform4x4(GLuint location, const glm::mat4 &matrix) {
+void Material::uniform4x4(GLuint location, const glm::mat4 &matrix) {
     glUniformMatrix4fv(location, 1, false, glm::value_ptr(matrix));
 }
 
