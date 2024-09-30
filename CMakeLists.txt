@@ -17,7 +17,7 @@ add_library(sgl ${SGL_SOURCE_FILES})
 add_library(sglad ${SGL_ADDON_FILES})
 set(SGL_LIBRARIES sgl sglad PARENT_SCOPE)
 
-set(SGL_INCLUDE_DIRECTORIES include PARENT_SCOPE)
+set(SGL_INCLUDE_DIRECTORIES ${CMAKE_PROJECT_SOURCE_DIR}/include PARENT_SCOPE)
 
 target_link_libraries(sgl
     PUBLIC fmt OpenGL::GL glfw GLEW
