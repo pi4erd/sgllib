@@ -11,6 +11,7 @@
 #include <memory>
 
 struct MaterialProperty {
+    // char name[64];
     GLuint location;
     GLenum type;
 };
@@ -41,12 +42,16 @@ public:
     void uniform4(GLuint location, const glm::vec4 &vec);
     void uniform4x4(GLuint location, const glm::mat4 &matrix);
 
+    MaterialProperty getPropertyInfo(GLuint location);
+    MaterialProperty getPropertyInfo(const std::string &name);
+
 private:
     GLuint getLocation(const std::string &name);
 
     GLuint program;
 
     std::map<std::string, MaterialProperty> uniforms;
+    std::vector<MaterialProperty> uniformsIndexed;
 
     GLboolean canFindAttribs = false;
 };

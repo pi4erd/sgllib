@@ -1,6 +1,7 @@
 #include "material.hpp"
 #include "log.hpp"
 
+#include <cstdint>
 #include <fmt/format.h>
 
 #include <glm/gtc/type_ptr.hpp>
@@ -21,15 +22,21 @@ Material::Material(GLuint handle, GLboolean canFindAttribs) : program(handle), c
     for(int i = 0; i < uniformCount; i++) {
         glGetActiveUniform(program, (GLuint)i, sizeof(nameBuffer), &length, &size,
             &type, nameBuffer);
-        location = glGetUniformLocation(program, nameBuffer);
-        
-        if(location == UINT32_MAX) {
-            LOG_ERROR("Failed to find uniform ID {}.", i);
-            continue;
-        }
 
-        MaterialProperty property = {location, type};
-        uniforms.insert({nameBuffer, property});
+        uniformsIndexed.push_back({(GLuint)i, type});
+        
+        if(canFindAttribs) {
+            // This is just a check i guess
+            location = glGetUniformLocation(program, nameBuffer);
+        
+            if(location == UINT32_MAX) {
+                LOG_ERROR("Failed to find uniform ID {}.", i);
+                continue;
+            }
+
+            MaterialProperty property = {(GLuint)i, type};
+            uniforms.insert({nameBuffer, property});
+        }
     }
 
     LOG_DEBUG("Constructed material {}", program);
@@ -110,10 +117,45 @@ void Material::uniform4x4(GLuint location, const glm::mat4 &matrix) {
     glUniformMatrix4fv(location, 1, false, glm::value_ptr(matrix));
 }
 
+MaterialProperty Material::getPropertyInfo(GLuint location) {
+    if(location > uniformsIndexed.size()) {
+        throw std::runtime_error(fmt::format("Invalid uniform location {} (> {} uniform count).",
+            location, uniformsIndexed.size())
+        );
+    }
+    return uniformsIndexed[location];
+}
+
+MaterialProperty Material::getPropertyInfo(const std::string &name) {
+    if(!canFindAttribs) {
+        throw std::runtime_error("Cannot search for locations with variable names "
+            "in material with SpirV shaders!"
+        );
+    }
+
+    if(uniforms.find(name) == uniforms.end()) {
+        GLuint location = glGetUniformLocation(program, name.c_str());
+
+        if(location == UINT32_MAX) {
+            throw std::runtime_error(fmt::format("Failed to find uniform ID {}.", location));
+        }
+
+        GLsizei size;
+        GLenum type;
+        glGetActiveUniform(program, location, 0, nullptr, &size, &type, nullptr);
+
+        return {.location = location, .type = type};
+    }
+
+    return uniforms[name];
+}
+
 GLuint Material::getLocation(const std::string &name)
 {
     if(!canFindAttribs)
-        throw std::runtime_error("Cannot search for locations in material with SpirV shaders!");
+        throw std::runtime_error("Cannot search for locations with variable names "
+            "in material with SpirV shaders!"
+        );
 
     if(uniforms.find(name) == uniforms.end()) // Fall back if uniform isn't in the map
         return glGetUniformLocation(program, name.c_str());
