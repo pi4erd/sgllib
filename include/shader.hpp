@@ -19,4 +19,6 @@ public:
     static std::unique_ptr<Shader> fromSpirvBinaryUnique(std::string path, GLenum shaderType);
 
     GLuint shader;
+
+    GLboolean spirvBinary = false;
 };

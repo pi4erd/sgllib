@@ -87,6 +87,8 @@ std::shared_ptr<Shader> Shader::fromSpirvBinary(std::string path, GLenum shaderT
         throw std::runtime_error(fmt::format("Failed to specialize shader binary: {}", infoLog));
     }
 
+    result->spirvBinary = GL_TRUE;
+
     return result;
 }
 
@@ -109,6 +111,8 @@ std::unique_ptr<Shader> Shader::fromSpirvBinaryUnique(std::string path, GLenum s
 
         throw std::runtime_error(fmt::format("Failed to specialize shader binary: {}", infoLog));
     }
+    
+    result->spirvBinary = GL_TRUE;
 
     return std::move(result);
 }

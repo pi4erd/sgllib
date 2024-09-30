@@ -4,8 +4,9 @@
 #include <fmt/format.h>
 
 #include <glm/gtc/type_ptr.hpp>
+#include <stdexcept>
 
-Material::Material(GLuint handle) : program(handle)
+Material::Material(GLuint handle, GLboolean canFindAttribs) : program(handle), canFindAttribs(canFindAttribs)
 {
     int uniformCount;
 
@@ -81,8 +82,39 @@ void Material::uniform4x4(const std::string &name, const glm::mat4 &matrix)
     glUniformMatrix4fv(getLocation(name), 1, false, glm::value_ptr(matrix));
 }
 
+void uniform1(GLuint location, GLint value) {
+    glUniform1i(location, value);
+}
+
+void uniform1(GLuint location, GLuint value) {
+    glUniform1ui(location, value);
+}
+
+void uniform1(GLuint location, GLfloat value) {
+    glUniform1f(location, value);
+}
+
+void uniform2(GLuint location, const glm::vec2 &vec) {
+    glUniform2fv(location, 1, glm::value_ptr(vec));
+}
+
+void uniform3(GLuint location, const glm::vec3 &vec) {
+    glUniform3fv(location, 1, glm::value_ptr(vec));
+}
+
+void uniform4(GLuint location, const glm::vec4 &vec) {
+    glUniform4fv(location, 1, glm::value_ptr(vec));
+}
+
+void uniform4x4(GLuint location, const glm::mat4 &matrix) {
+    glUniformMatrix4fv(location, 1, false, glm::value_ptr(matrix));
+}
+
 GLuint Material::getLocation(const std::string &name)
 {
+    if(!canFindAttribs)
+        throw std::runtime_error("Cannot search for locations in material with SpirV shaders!");
+
     if(uniforms.find(name) == uniforms.end()) // Fall back if uniform isn't in the map
         return glGetUniformLocation(program, name.c_str());
 
@@ -103,7 +135,10 @@ std::shared_ptr<Material> MaterialBuilder::build()
 {
     GLuint program = glCreateProgram();
 
+    GLboolean canFindAttribs = GL_TRUE;
+
     for(auto &shader : attachedShaders) {
+        if(shader->spirvBinary == GL_TRUE) canFindAttribs = GL_FALSE;
         glAttachShader(program, shader->getId());
     }
 
@@ -124,14 +159,16 @@ std::shared_ptr<Material> MaterialBuilder::build()
     }
     attachedShaders.clear();
 
-    return std::make_shared<Material>(program);
+    return std::make_shared<Material>(program, canFindAttribs);
 }
 
 std::unique_ptr<Material> MaterialBuilder::buildUnique()
 {
     GLuint program = glCreateProgram();
+    GLboolean canFindAttribs = GL_TRUE;
 
     for(auto &shader : attachedShaders) {
+        if(shader->spirvBinary == GL_TRUE) canFindAttribs = GL_FALSE;
         glAttachShader(program, shader->getId());
     }
 
@@ -152,7 +189,7 @@ std::unique_ptr<Material> MaterialBuilder::buildUnique()
     }
     attachedShaders.clear();
 
-    return std::make_unique<Material>(program);
+    return std::make_unique<Material>(program, canFindAttribs);
 }
 
 MaterialBuilder MaterialBuilder::attachShader(std::shared_ptr<Shader> shader)
