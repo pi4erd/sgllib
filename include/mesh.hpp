@@ -22,6 +22,17 @@ public:
     void draw(GLenum primitiveType=GL_TRIANGLES);
     void drawInstanced(size_t instanceCount, GLenum primitiveType=GL_TRIANGLES);
 
+    /// Creates a mesh from vertex data in a pointer.
+    /// 
+    /// The idea is to directly copy data from array bypassing type constraints
+    /// in order to use a custom vertex structure
+    static std::shared_ptr<Mesh> createMesh(
+        const void *vertexData,
+        size_t vertexDataSize,
+        const std::vector<GLuint> &indices,
+        const std::vector<int> &attribs
+    );
+
     static std::shared_ptr<Mesh> createFromVertexArrayAttrib(
         const std::vector<float> &vertData,
         const std::vector<GLuint> &indices,
