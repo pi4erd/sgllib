@@ -14,6 +14,7 @@ public:
 
     glm::mat4 viewMatrix();
     glm::mat4 projectionMatrix(float aspect);
+    glm::mat4 projectionRHMatrix(float aspect);
 
 public: // public properties
     glm::vec3 origin;

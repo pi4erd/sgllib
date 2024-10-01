@@ -2,6 +2,7 @@
 
 #include "log.hpp"
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/geometric.hpp>
 #include <glm/matrix.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>
@@ -21,13 +22,13 @@ glm::vec3 Camera::right() {
 }
 
 glm::vec3 Camera::forward() {
-    return rotationMatrix() * glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    return rotationMatrix() * glm::vec4(glm::cross(glm::vec3(1.0, 0.0, 0.0), up), 1.0);
 }
 
 glm::mat4 Camera::rotationMatrix() {
-    return glm::rotate(rotation.y, glm::vec3(0.0, -1.0, 0.0))
+    return glm::rotate(rotation.y, up)
         * glm::rotate(rotation.x, glm::vec3(1.0, 0.0, 0.0))
-        * glm::rotate(rotation.z, glm::vec3(0.0, 0.0, 1.0));
+        * glm::rotate(rotation.z, glm::cross(glm::vec3(1.0, 0.0, 0.0), up));
 }
 
 glm::mat4 Camera::viewMatrix() {
@@ -36,4 +37,8 @@ glm::mat4 Camera::viewMatrix() {
 
 glm::mat4 Camera::projectionMatrix(float aspect) {
     return glm::perspectiveLH(fovY, aspect, nearPlane, farPlane);
+}
+
+glm::mat4 Camera::projectionRHMatrix(float aspect) {
+    return glm::perspectiveRH(fovY, aspect, nearPlane, farPlane);
 }
