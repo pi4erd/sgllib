@@ -50,7 +50,7 @@ public:
         GLuint instanceBuffer
     );
 
-private:
+public:
     GLuint vbo, vao, ebo;
     
     size_t elementCount;
