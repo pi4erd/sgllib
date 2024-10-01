@@ -9,7 +9,7 @@
 class Window {
 public:
     Window(std::string title, const std::vector<std::tuple<int, int>> &hints);
-    ~Window();
+    virtual ~Window();
 
     bool shouldClose(void) { return glfwWindowShouldClose(window); }
     void close(void) { glfwSetWindowShouldClose(window, true); }
