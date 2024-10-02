@@ -1,4 +1,4 @@
-#include <fmt/base.h>
+#include <fmt/format.h>
 #include <log.hpp>
 
 int Logging::LOG_LEVEL = 0;

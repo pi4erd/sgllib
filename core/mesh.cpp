@@ -2,8 +2,7 @@
 
 #include "log.hpp"
 
-#include <GL/gl.h>
-#include <GL/glext.h>
+#include <GL/glew.h>
 #include <cstddef>
 #include <memory>
 

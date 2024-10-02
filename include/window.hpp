@@ -6,6 +6,7 @@
 #include <vector>
 #include <tuple>
 
+
 class Window {
 public:
     Window(std::string title, const std::vector<std::tuple<int, int>> &hints);
