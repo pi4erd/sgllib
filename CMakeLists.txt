@@ -45,3 +45,5 @@ target_link_libraries(sgl
 target_link_libraries(sglad
     PUBLIC glm
 )
+
+add_subdirectory(examples)
