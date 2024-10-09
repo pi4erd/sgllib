@@ -11,7 +11,7 @@ Texture::Texture(GLuint handle) : handle(handle) {
     LOG_DEBUG("Created texture {}", handle);
 }
 
-std::shared_ptr<Texture> Texture::createEmptyStorage(GLsizei width, GLsizei height) {
+std::shared_ptr<Texture> Texture::createEmptyStorage(GLsizei width, GLsizei height, GLenum format) {
     GLuint handle;
 
     glGenTextures(1, &handle);
@@ -21,12 +21,12 @@ std::shared_ptr<Texture> Texture::createEmptyStorage(GLsizei width, GLsizei heig
     glTextureParameteri(handle, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTextureParameteri(handle, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTextureParameteri(handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureStorage2D(handle, 1, GL_RGBA32F, width, height);
+    glTextureStorage2D(handle, 1, format, width, height);
     
     return std::make_shared<Texture>(handle);
 }
 
-std::shared_ptr<Texture> Texture::fromImage(const std::string &path) {
+std::shared_ptr<Texture> Texture::fromImage(const std::string &path, GLenum format) {
     GLuint handle;
 
     glGenTextures(1, &handle);
@@ -36,7 +36,7 @@ std::shared_ptr<Texture> Texture::fromImage(const std::string &path) {
     uint8_t *image_data = stbi_load(path.c_str(), &width, &height, &channels, 4);
 
     glTexImage2D(
-        GL_TEXTURE_2D, 0, GL_RGBA8,
+        GL_TEXTURE_2D, 0, format,
         width, height, 0, GL_RGBA,
         GL_UNSIGNED_BYTE, image_data
     );
@@ -51,11 +51,11 @@ std::shared_ptr<Texture> Texture::fromImage(const std::string &path) {
     return std::make_shared<Texture>(handle);
 }
 
-void Texture::recreateStorage(GLsizei newWidth, GLsizei newHeight)
+void Texture::recreateStorage(GLsizei newWidth, GLsizei newHeight, GLenum format)
 {
     // Hope this is enough
     glBindTexture(GL_TEXTURE_2D, handle);
-    glTextureStorage2D(handle, 1, GL_RGBA32F, newWidth, newHeight);
+    glTextureStorage2D(handle, 1, format, newWidth, newHeight);
 }
 
 void Texture::makeMipmaps() {
@@ -75,5 +75,6 @@ void Texture::use(GLuint unit) {
 }
 
 void Texture::bind_image(GLuint unit, GLenum accessMode) {
+    // TODO: Decide what to do with format here
     glBindImageTexture(unit, handle, 0, GL_FALSE, 0, accessMode, GL_RGBA32F);
 }
