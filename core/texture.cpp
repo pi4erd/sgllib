@@ -11,16 +11,17 @@ Texture::Texture(GLuint handle) : handle(handle) {
     LOG_DEBUG("Created texture {}", handle);
 }
 
+Texture::~Texture() {
+    LOG_DEBUG("Destroying texture {}", handle);
+    glDeleteTextures(1, &handle);
+}
+
 std::shared_ptr<Texture> Texture::createEmptyStorage(GLsizei width, GLsizei height, GLenum format) {
     GLuint handle;
 
     glGenTextures(1, &handle);
     glBindTexture(GL_TEXTURE_2D, handle);
-
-    glTextureParameteri(handle, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(handle, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(handle, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    
     glTextureStorage2D(handle, 1, format, width, height);
     
     return std::make_shared<Texture>(handle);
@@ -43,11 +44,6 @@ std::shared_ptr<Texture> Texture::fromImage(const std::string &path, GLenum form
 
     stbi_image_free(image_data);
 
-    glTextureParameteri(handle, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(handle, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(handle, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
     return std::make_shared<Texture>(handle);
 }
 
@@ -64,13 +60,13 @@ void Texture::makeMipmaps() {
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-
-Texture::~Texture() {
-    LOG_DEBUG("Destroying texture {}", handle);
-    glDeleteTextures(1, &handle);
+void Texture::setParameter(GLenum param, GLint value) {
+    glBindTexture(GL_TEXTURE_2D, handle);
+    glTexParameteri(GL_TEXTURE_2D, param, value);
 }
 
 void Texture::use(GLuint unit) {
+    glBindTexture(GL_TEXTURE_2D, handle);
     glBindTextureUnit(unit, handle);
 }
 
