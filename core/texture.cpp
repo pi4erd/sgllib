@@ -21,8 +21,9 @@ std::shared_ptr<Texture> Texture::createEmptyStorage(GLsizei width, GLsizei heig
 
     glGenTextures(1, &handle);
     glBindTexture(GL_TEXTURE_2D, handle);
-    
-    glTextureStorage2D(handle, 1, format, width, height);
+
+    glTexStorage2D(GL_TEXTURE_2D, 1, format, width, height);
+    // glTextureStorage2D(handle, 1, format, width, height);
     
     return std::make_shared<Texture>(handle);
 }
@@ -51,7 +52,8 @@ void Texture::recreateStorage(GLsizei newWidth, GLsizei newHeight, GLenum format
 {
     // Hope this is enough
     glBindTexture(GL_TEXTURE_2D, handle);
-    glTextureStorage2D(handle, 1, format, newWidth, newHeight);
+    glTexStorage2D(GL_TEXTURE_2D, 1, format, newWidth, newHeight);
+    // glTextureStorage2D(handle, 1, format, newWidth, newHeight);
 }
 
 void Texture::makeMipmaps() {
