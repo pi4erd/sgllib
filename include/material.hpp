@@ -29,6 +29,8 @@ public:
     void uniform1(const std::string &name, GLuint value);
     void uniform1(const std::string &name, GLfloat value);
     void uniform2(const std::string &name, const glm::vec2 &vec);
+    void uniform2(const std::string &name, const glm::ivec2 &vec);
+    void uniform2(const std::string &name, const glm::uvec2 &vec);
     void uniform3(const std::string &name, const glm::vec3 &vec);
     void uniform4(const std::string &name, const glm::vec4 &vec);
     void uniform4x4(const std::string &name, const glm::mat4 &matrix);
@@ -38,6 +40,8 @@ public:
     void uniform1(GLuint location, GLuint value);
     void uniform1(GLuint location, GLfloat value);
     void uniform2(GLuint location, const glm::vec2 &vec);
+    void uniform2(GLuint location, const glm::ivec2 &vec);
+    void uniform2(GLuint location, const glm::uvec2 &vec);
     void uniform3(GLuint location, const glm::vec3 &vec);
     void uniform4(GLuint location, const glm::vec4 &vec);
     void uniform4x4(GLuint location, const glm::mat4 &matrix);

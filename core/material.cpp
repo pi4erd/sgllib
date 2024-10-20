@@ -1,5 +1,6 @@
 #include "material.hpp"
 #include "log.hpp"
+#include "shader.hpp"
 
 #include <cstdint>
 #include <fmt/format.h>
@@ -74,6 +75,14 @@ void Material::uniform2(const std::string &name, const glm::vec2 &vec)
     glUniform2fv(getLocation(name), 1, glm::value_ptr(vec));
 }
 
+void Material::uniform2(const std::string &name, const glm::ivec2 &vec) {
+    glUniform2iv(getLocation(name), 1, glm::value_ptr(vec));
+}
+
+void Material::uniform2(const std::string &name, const glm::uvec2 &vec) {
+    glUniform2uiv(getLocation(name), 1, glm::value_ptr(vec));
+}
+
 void Material::uniform3(const std::string &name, const glm::vec3 &vec)
 {
     glUniform3fv(getLocation(name), 1, glm::value_ptr(vec));
@@ -103,6 +112,14 @@ void Material::uniform1(GLuint location, GLfloat value) {
 
 void Material::uniform2(GLuint location, const glm::vec2 &vec) {
     glUniform2fv(location, 1, glm::value_ptr(vec));
+}
+
+void Material::uniform2(GLuint location, const glm::ivec2 &vec) {
+    glUniform2iv(location, 1, glm::value_ptr(vec));
+}
+
+void Material::uniform2(GLuint location, const glm::uvec2 &vec) {
+    glUniform2uiv(location, 1, glm::value_ptr(vec));
 }
 
 void Material::uniform3(GLuint location, const glm::vec3 &vec) {
